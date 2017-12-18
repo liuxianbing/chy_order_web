@@ -769,8 +769,8 @@ $(function(){
                         //product_order_ids.push(id);
                         var pro={};
                         pro["product_id"]=id;
-                        pro["product_quantity"]= $(this).parent().parent().find('.production_num')。val();
-                        pro["remark"]= $(this).parent().parent().find('.text_info')。val();
+                        pro["product_quantity"]= $(this).parent().parent().find('.production_num').val();
+                        pro["remark"]= $(this).parent().parent().find('.text_info').val();
                         productList.push(pro)
                     }
                 });
