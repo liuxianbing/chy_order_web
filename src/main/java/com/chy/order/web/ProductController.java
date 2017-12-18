@@ -53,7 +53,7 @@ public class ProductController extends AbstractController{
 		return new Result<>(ResultCode.SUCCEED,productService.selectList(params));
 	}
 
-	@ApiOperation(value = "下单请求")
+	@ApiOperation(value = "添加产品请求")
 	@RequestMapping(value = "save", method = RequestMethod.POST, produces = { "application/json" })
 	public @ResponseBody Result<Long> save(@RequestBody Map<String,Object> params) throws Exception{
 		Map<String,Object> mm=new HashMap<>();
@@ -67,13 +67,16 @@ public class ProductController extends AbstractController{
 			}
 		});
 		Product product=new Product();
+		product.setUid(getCurrUser().getId());
 		InstanceUtil.transMap2Bean(mm, product);
+		if(product.getId()==null || product.getId()==0l){
 		Map<String,Object> map=new HashMap<>();
 		map.put("uid", getCurrUser().getId());
 		int productNum=productService.selectList(map).size()+1;
 		String pid="CY"+PinYinUtil.getAlpha(getCurrUser().getProvince())+
 				String.format("%04d", getCurrUser().getId())+String.format("%02d", productNum);  
 		product.setProduct_id(pid);
+		}
 		productService.insertOrUpdate(product);
 		return new Result<>(ResultCode.SUCCEED,product.getId());
 	}
@@ -129,13 +132,14 @@ public class ProductController extends AbstractController{
 	@RequestMapping(value = "order", method = RequestMethod.POST, produces = { "application/json" })
 	public @ResponseBody Result<Boolean> order(@RequestBody Map<String,Object> params) throws Exception{
 		Order order=new Order();
+		order.setContract_no("CY"+DateUtil.getDate().substring(2,4)+String.format("%03d", orderService.selectYearOrderCnt()+1));
 		InstanceUtil.transMap2Bean(params, order);
 		order.setUid(getCurrUser().getId());
 		orderService.insert(order);
 		List<Map<String,Object>> list=(List<Map<String, Object>>) params.get("productList");
 		List<RelOrderProduct> plist=list.stream().map(e->{
 			RelOrderProduct rop=new RelOrderProduct();
-			InstanceUtil.transMap2Bean(params, rop);
+			InstanceUtil.transMap2Bean(e, rop);
 			rop.setOrder_id(order.getId());
 			return rop;
 		}).collect(Collectors.toList());

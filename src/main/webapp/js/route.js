@@ -78,4 +78,31 @@ $(function(){
 	$("ul .weld-menu").on('click',function(){
 		window.location ="../weld_menu/home.html";
 	});
+
+    //退出页面全屏
+    function fullScreen(el) {  
+      	var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen,wscript;  
+      	if(typeof rfs != "undefined" && rfs) {  
+          	return rfs.call(el);  
+      	}
+  	}  
+  	function exitFullScreen(el) {  
+      	var el= document,  
+          	cfs = el.cancelFullScreen || el.webkitCancelFullScreen || el.mozCancelFullScreen || el.exitFullScreen,wscript;  
+      	if (typeof cfs != "undefined" && cfs) {  
+        	return  cfs.call(el);;  
+      	}  
+     
+      	if (typeof window.ActiveXObject != "undefined") {  
+          	wscript = new ActiveXObject("WScript.Shell");  
+          	if (wscript != null) {  
+              	wscript.SendKeys("{F11}");  
+          	}  
+    	}  
+  	}  
+  	var content = document.documentElement; 
+	$(".fullscreen").on('click',function(event){
+	  	fullScreen(content);
+	  	
+	}); 	 
 });

@@ -33,6 +33,7 @@ public class NeteaseSms {
 	public static String sendMobile(String mobile) throws Exception{
 		String content = "mobile=" + URLEncoder.encode(mobile, "utf-8"); 
 		String res= sendSms(SEND_URL,content);
+		System.out.println(res);
 		Map<String,Object> maps=JackSonUtil.readValueAsObjFromStr(res, Map.class);
 		if(maps.get("code").toString().equals("200")){
 			return maps.get("obj").toString();

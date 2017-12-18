@@ -7,6 +7,8 @@ package com.chy.order.model;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.annotations.TableName;
+@TableName("orders")
 public class Order implements Serializable{
 	
 	private static final long serialVersionUID = -7269398948910605127L;
@@ -19,8 +21,16 @@ public class Order implements Serializable{
 	private String payment_url,payment_final_url,express_type;
 	private Integer pay_type;
 	private Long uid,delivery_id;
+	private String type;
 	
 	
+	
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public String getExpress_type() {
 		return express_type;
 	}

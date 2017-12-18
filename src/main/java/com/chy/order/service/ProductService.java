@@ -28,6 +28,8 @@ public class ProductService extends AbstractService< ProductMapper,  Product> {
 			wrapper.ge("create_time", params.get("data1"));
 			wrapper.le("create_time", params.get("data2"));
 		}
+		wrapper.eq("product_class_type", params.get("product_class_type"));
+		wrapper.orderBy("id", false);
 		return selectList(wrapper);
 	}
 	
